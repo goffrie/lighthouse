@@ -39,9 +39,13 @@ use crate::{
 use bls::verify_signature_sets;
 use slog::debug;
 use slot_clock::SlotClock;
+use state_processing::per_block_processing::is_valid_indexed_attestation;
 use state_processing::{
     common::get_indexed_attestation,
-    per_block_processing::errors::AttestationValidationError,
+    per_block_processing::{
+        errors::{AttestationValidationError, BlockOperationError, IndexedAttestationInvalid},
+        VerifySignatures,
+    },
     per_slot_processing,
     signature_sets::{
         indexed_attestation_signature_set_from_pubkeys,
@@ -226,6 +230,8 @@ pub enum Error {
         head_block_slot: Slot,
         attestation_slot: Slot,
     },
+    /// There was an error while verifying the indexed attestation for the slasher.
+    SlasherVerificationError(BlockOperationError<IndexedAttestationInvalid>),
     /// There was an error whilst processing the attestation. It is not known if it is valid or invalid.
     ///
     /// ## Peer scoring
@@ -301,12 +307,10 @@ fn process_slash_info<T: BeaconChainTypes>(
     use AttestationSlashInfo::*;
 
     if let Some(slasher) = chain.slasher.as_ref() {
-        let (indexed_attestation, err) = match slash_info {
-            // TODO(sproul): check signatures
-            // TODO: de-duplicate by attestation hash?
+        let (indexed_attestation, check_signature, err) = match slash_info {
             SignatureNotChecked(attestation, err) => {
                 match obtain_indexed_attestation_and_committees_per_slot(chain, &attestation) {
-                    Ok((indexed, _)) => (indexed, err),
+                    Ok((indexed, _)) => (indexed, true, err),
                     Err(e) => {
                         debug!(
                             chain.log,
@@ -318,10 +322,24 @@ fn process_slash_info<T: BeaconChainTypes>(
                     }
                 }
             }
-            SignatureNotCheckedIndexed(indexed, err) => (indexed, err),
+            SignatureNotCheckedIndexed(indexed, err) => (indexed, true, err),
             SignatureInvalid(e) => return e,
-            SignatureValid(indexed, err) => (indexed, err),
+            SignatureValid(indexed, err) => (indexed, false, err),
         };
+
+        if check_signature {
+            if let Err(e) = chain.with_head(|head| {
+                is_valid_indexed_attestation(
+                    &head.beacon_state,
+                    &indexed_attestation,
+                    VerifySignatures::True,
+                    &chain.spec,
+                )
+                .map_err(Error::SlasherVerificationError)
+            }) {
+                return e;
+            }
+        }
 
         // Supply to slasher.
         slasher.accept_attestation(indexed_attestation);
