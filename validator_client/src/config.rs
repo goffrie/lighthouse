@@ -11,7 +11,7 @@ use std::fs;
 use std::path::PathBuf;
 use types::GRAFFITI_BYTES_LEN;
 
-pub const DEFAULT_HTTP_SERVER: &str = "http://localhost:5062/";
+pub const DEFAULT_BEACON_NODE: &str = "http://localhost:5052/";
 /// Path to the slashing protection database within the datadir.
 pub const SLASHING_PROTECTION_FILENAME: &str = "slashing_protection.sqlite";
 
@@ -55,7 +55,7 @@ impl Default for Config {
         Self {
             validator_dir,
             secrets_dir,
-            http_server: DEFAULT_HTTP_SERVER.to_string(),
+            http_server: DEFAULT_BEACON_NODE.to_string(),
             allow_unsynced_beacon_node: false,
             delete_lockfiles: false,
             disable_auto_discover: false,
