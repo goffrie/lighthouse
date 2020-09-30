@@ -8,11 +8,10 @@ use directory::{
 use eth2::types::Graffiti;
 use serde_derive::{Deserialize, Serialize};
 use std::fs;
-use std::net::Ipv4Addr;
 use std::path::PathBuf;
 use types::GRAFFITI_BYTES_LEN;
 
-pub const DEFAULT_HTTP_SERVER: &str = "http://localhost:5052/";
+pub const DEFAULT_HTTP_SERVER: &str = "http://localhost:5062/";
 /// Path to the slashing protection database within the datadir.
 pub const SLASHING_PROTECTION_FILENAME: &str = "slashing_protection.sqlite";
 
@@ -141,12 +140,6 @@ impl Config {
 
         if cli_args.is_present("http") {
             config.http_api.enabled = true;
-        }
-
-        if let Some(address) = cli_args.value_of("http-address") {
-            config.http_api.listen_addr = address
-                .parse::<Ipv4Addr>()
-                .map_err(|_| "http-address is not a valid IPv4 address.")?;
         }
 
         if let Some(port) = cli_args.value_of("http-port") {
