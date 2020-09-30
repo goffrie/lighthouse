@@ -1,10 +1,10 @@
 use crate::{ApiError, ApiResult};
-use environment::TaskExecutor;
 use hyper::header;
 use hyper::{Body, Request, Response, StatusCode};
 use serde::Deserialize;
 use serde::Serialize;
 use ssz::Encode;
+use task_executor::TaskExecutor;
 
 /// Defines the encoding for the API.
 #[derive(Clone, Serialize, Deserialize, Copy)]
@@ -128,7 +128,7 @@ impl<T: Clone + Send + Sync + 'static> Handler<T> {
         let value = self
             .executor
             .clone()
-            .handle
+            .runtime_handle()
             .spawn_blocking(move || func(req, ctx))
             .await
             .map_err(|e| {

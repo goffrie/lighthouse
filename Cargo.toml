@@ -33,6 +33,7 @@ members = [
     "common/rest_types",
     "common/slot_clock",
     "common/test_random_derive",
+    "common/task_executor",
     "common/validator_dir",
 
     "consensus/cached_tree_hash",

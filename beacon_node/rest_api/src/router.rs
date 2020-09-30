@@ -3,7 +3,6 @@ use crate::{
 };
 use beacon_chain::{BeaconChain, BeaconChainTypes};
 use bus::Bus;
-use environment::TaskExecutor;
 use eth2_config::Eth2Config;
 use eth2_libp2p::{NetworkGlobals, PeerId};
 use hyper::header::HeaderValue;
@@ -16,6 +15,7 @@ use slog::debug;
 use std::path::PathBuf;
 use std::sync::Arc;
 use std::time::Instant;
+use task_executor::TaskExecutor;
 use types::{EthSpec, SignedBeaconBlockHash};
 
 pub struct Context<T: BeaconChainTypes> {

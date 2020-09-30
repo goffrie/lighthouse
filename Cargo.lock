@@ -281,9 +281,9 @@ checksum = "cdb031dd78e28731d87d56cc8ffef4a8f36ca26c38fe2de700543e627f8a464a"
 
 [[package]]
 name = "backtrace"
-version = "0.3.50"
+version = "0.3.51"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "46254cf2fdcdf1badb5934448c1bcbe046a56537b3987d96c51a7afc5d03f293"
+checksum = "ec1931848a574faa8f7c71a12ea00453ff5effbb5f51afe7f77d7a48cace6ac1"
 dependencies = [
  "addr2line",
  "cfg-if",
@@ -361,6 +361,7 @@ dependencies = [
  "smallvec 1.4.2",
  "state_processing",
  "store",
+ "task_executor",
  "tempfile",
  "tokio 0.2.22",
  "tree_hash",
@@ -396,6 +397,7 @@ dependencies = [
  "slog-async",
  "slog-term",
  "store",
+ "task_executor",
  "tokio 0.2.22",
  "types",
 ]
@@ -782,6 +784,7 @@ dependencies = [
  "sloggers",
  "slot_clock",
  "store",
+ "task_executor",
  "time 0.2.22",
  "timer",
  "tokio 0.2.22",
@@ -1245,9 +1248,9 @@ checksum = "212d0f5754cb6769937f4501cc0e67f4f4483c8d2c3e1e922ee9edbe4ab4c7c0"
 
 [[package]]
 name = "discv5"
-version = "0.1.0-alpha.12"
+version = "0.1.0-alpha.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "65a5e4a22a4c1d7142f54ac068b8c6252610ed0ebf00264f39eccee7f88fe4b9"
+checksum = "051e80f35af336a84e3960df036eea52366daee461f0b6ee2feee15c6d101718"
 dependencies = [
  "aes-gcm",
  "arrayvec",
@@ -1343,9 +1346,9 @@ dependencies = [
 
 [[package]]
 name = "enr"
-version = "0.1.3"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a3137b4854534673ea350751670c6fe53920394a328ba9ce4d9acabd4f60a586"
+checksum = "7867d4637e09af7576d9399d02c45784daf264fe6bb0713496a53c51a9154e21"
 dependencies = [
  "base64 0.12.3",
  "bs58",
@@ -1356,7 +1359,7 @@ dependencies = [
  "rand 0.7.3",
  "rlp",
  "serde",
- "tiny-keccak 2.0.2",
+ "sha3",
  "zeroize",
 ]
 
@@ -1378,13 +1381,10 @@ name = "environment"
 version = "0.1.2"
 dependencies = [
  "ctrlc",
- "discv5",
  "eth2_config",
  "eth2_testnet_config",
  "exit-future",
  "futures 0.3.5",
- "lazy_static",
- "lighthouse_metrics",
  "logging",
  "parking_lot 0.11.0",
  "slog",
@@ -1392,6 +1392,7 @@ dependencies = [
  "slog-json",
  "slog-term",
  "sloggers",
+ "task_executor",
  "tokio 0.2.22",
  "types",
 ]
@@ -1428,6 +1429,7 @@ dependencies = [
  "slog",
  "sloggers",
  "state_processing",
+ "task_executor",
  "tokio 0.2.22",
  "toml",
  "tree_hash",
@@ -1524,7 +1526,6 @@ dependencies = [
  "base64 0.12.3",
  "dirs",
  "discv5",
- "environment",
  "error-chain",
  "eth2_ssz",
  "eth2_ssz_derive",
@@ -1551,6 +1552,7 @@ dependencies = [
  "slog-term",
  "smallvec 1.4.2",
  "snap",
+ "task_executor",
  "tempdir",
  "tiny-keccak 2.0.2",
  "tokio 0.2.22",
@@ -1596,8 +1598,8 @@ dependencies = [
 name = "eth2_testnet_config"
 version = "0.2.0"
 dependencies = [
- "enr",
  "eth2_config",
+ "eth2_libp2p",
  "eth2_ssz",
  "serde",
  "serde_yaml",
@@ -3304,7 +3306,6 @@ name = "network"
 version = "0.2.0"
 dependencies = [
  "beacon_chain",
- "environment",
  "error-chain",
  "eth2_libp2p",
  "eth2_ssz",
@@ -3331,6 +3332,7 @@ dependencies = [
  "smallvec 1.4.2",
  "state_processing",
  "store",
+ "task_executor",
  "tempfile",
  "tokio 0.2.22",
  "tree_hash",
@@ -3765,18 +3767,18 @@ checksum = "b18befed8bc2b61abc79a457295e7e838417326da1586050b919414073977f19"
 
 [[package]]
 name = "poly1305"
-version = "0.6.0"
+version = "0.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d9b42192ab143ed7619bf888a7f9c6733a9a2153b218e2cd557cfdb52fbf9bb1"
+checksum = "22ce46de8e53ee414ca4d02bfefac75d8c12fba948b76622a40b4be34dfce980"
 dependencies = [
  "universal-hash",
 ]
 
 [[package]]
 name = "polyval"
-version = "0.4.0"
+version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d9a50142b55ab3ed0e9f68dfb3709f1d90d29da24e91033f28b96330643107dc"
+checksum = "a5884790f1ce3553ad55fec37b5aaac5882e0e845a2612df744d6c85c9bf046c"
 dependencies = [
  "cfg-if",
  "universal-hash",
@@ -4105,9 +4107,9 @@ dependencies = [
 
 [[package]]
 name = "rayon"
-version = "1.4.0"
+version = "1.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cfd016f0c045ad38b5251be2c9c0ab806917f82da4d36b2a327e5166adad9270"
+checksum = "dcf6960dc9a5b4ee8d3e4c5787b4a112a8818e0290a42ff664ad60692fdf2032"
 dependencies = [
  "autocfg 1.0.1",
  "crossbeam-deque",
@@ -4252,7 +4254,6 @@ dependencies = [
  "beacon_chain",
  "bls",
  "bus",
- "environment",
  "eth2_config",
  "eth2_libp2p",
  "eth2_ssz",
@@ -4280,6 +4281,7 @@ dependencies = [
  "slot_clock",
  "state_processing",
  "store",
+ "task_executor",
  "tokio 0.2.22",
  "tree_hash",
  "types",
@@ -4293,7 +4295,6 @@ version = "0.2.0"
 dependencies = [
  "beacon_chain",
  "bls",
- "environment",
  "eth2_hashing",
  "eth2_ssz",
  "eth2_ssz_derive",
@@ -4306,6 +4307,7 @@ dependencies = [
  "serde_yaml",
  "state_processing",
  "store",
+ "task_executor",
  "tokio 0.2.22",
  "tree_hash",
  "types",
@@ -4334,9 +4336,9 @@ checksum = "cabe4fa914dec5870285fa7f71f602645da47c486e68486d2b4ceb4a343e90ac"
 
 [[package]]
 name = "rlp"
-version = "0.4.5"
+version = "0.4.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4a7d3f9bed94764eac15b8f14af59fac420c236adaff743b7bcc88e265cb4345"
+checksum = "1190dcc8c3a512f1eef5d09bb8c84c7f39e1054e174d1795482e18f5272f2e73"
 dependencies = [
  "rustc-hex",
 ]
@@ -5187,6 +5189,18 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c63f48baada5c52e65a29eef93ab4f8982681b67f9e8d29c7b05abcfec2b9ffe"
 
 [[package]]
+name = "task_executor"
+version = "0.1.0"
+dependencies = [
+ "exit-future",
+ "futures 0.3.5",
+ "lazy_static",
+ "lighthouse_metrics",
+ "slog",
+ "tokio 0.2.22",
+]
+
+[[package]]
 name = "tempdir"
 version = "0.3.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5338,11 +5352,11 @@ name = "timer"
 version = "0.2.0"
 dependencies = [
  "beacon_chain",
- "environment",
  "futures 0.3.5",
  "parking_lot 0.11.0",
  "slog",
  "slot_clock",
+ "task_executor",
  "tokio 0.2.22",
  "types",
 ]
@@ -6348,12 +6362,12 @@ dependencies = [
 name = "websocket_server"
 version = "0.2.0"
 dependencies = [
- "environment",
  "futures 0.3.5",
  "serde",
  "serde_derive",
  "serde_json",
  "slog",
+ "task_executor",
  "tokio 0.2.22",
  "types",
  "ws",
